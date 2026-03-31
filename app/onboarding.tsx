@@ -1,34 +1,35 @@
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { router } from 'expo-router';
+//import  from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store'
 
 export default function Onboarding() {
-  const [personality, setPersonality] = useState<string | null>(null);
-
+//   const [personality, setPersonality] = useState<string | null>(null);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hvem er du? 👀</Text>
 
       <Button 
-      title="Introvert" onPress={() => {
-      setPersonality("introvert");
-      router.replace({
-        pathname: '/(tabs)',
-        params: { personality: "introvert" },
-      });
-      }} />
+      title="Introvert"
+      onPress={async () => {
+        // setPersonality('introvert');
+        await SecureStore.setItemAsync('personality', 'introvert');
+        router.replace('/(tabs)');
+      }} 
+      />
 
-      <Button title="Ekstrovert" onPress={() => {
-        setPersonality("ekstrovert");
-        router.replace({
-          pathname: '/(tabs)',
-          params: { personality: "ekstrovert" },
-        });
-      }} />
+      <Button title="Ekstrovert" 
+      onPress={async () => {
+       // setPersonality('ekstrovert');
+        await SecureStore.setItemAsync('personality', 'ekstrovert');
+        router.replace('/(tabs)');
+      }}
+      />
 
-      {personality && (
+      {/* {personality && (
         <Text style={styles.text}>Du valgte: {personality}</Text>
-      )}
+      )} */}
     </View>
   );
 }
